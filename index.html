@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fbf7ee" />
+    <meta
+      name="description"
+      content="Un quiz interactiv despre țările lumii și capitalele lor."
+    />
+    <title>Atlas — Quiz despre capitalele lumii</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell" id="app">
+      <section class="screen screen--intro is-active" id="intro-screen" aria-labelledby="intro-title">
+        <div class="intro-mark" aria-hidden="true">
+          <svg viewBox="0 0 96 96" role="img">
+            <circle cx="48" cy="48" r="35"></circle>
+            <path d="M13 48h70M48 13c12 10 18 22 18 35S60 73 48 83M48 13C36 23 30 35 30 48s6 25 18 35"></path>
+            <path class="orbit" d="M22 25c19-9 43-6 57 9"></path>
+          </svg>
+          <span class="mark-dot"></span>
+        </div>
+
+        <div class="intro-copy">
+          <p class="eyebrow">Steaguri din întreaga lume</p>
+          <h1 id="intro-title">Cât de bine<br />cunoști lumea?</h1>
+          <p class="lead">Alege provocarea potrivită și învață țările, capitalele și steagurile lor.</p>
+        </div>
+
+        <div class="difficulty-picker" role="group" aria-labelledby="difficulty-title">
+          <h2 class="difficulty-title" id="difficulty-title">Alege nivelul de dificultate</h2>
+          <div class="difficulty-options">
+            <button class="difficulty-option is-selected" type="button" data-difficulty="easy" aria-pressed="true" aria-label="Ușor — capitale cunoscute">
+              <span class="difficulty-name">Ușor</span>
+              <span class="difficulty-detail">
+                <span class="level-meter" aria-hidden="true"><i class="is-filled"></i><i></i><i></i><i></i></span>
+                <span>Capitale cunoscute</span>
+              </span>
+            </button>
+            <button class="difficulty-option" type="button" data-difficulty="medium" aria-pressed="false" aria-label="Mediu — mai puțin evidente">
+              <span class="difficulty-name">Mediu</span>
+              <span class="difficulty-detail">
+                <span class="level-meter" aria-hidden="true"><i class="is-filled"></i><i class="is-filled"></i><i></i><i></i></span>
+                <span>Mai puțin evidente</span>
+              </span>
+            </button>
+            <button class="difficulty-option" type="button" data-difficulty="hard" aria-pressed="false" aria-label="Greu — țări de explorat">
+              <span class="difficulty-name">Greu</span>
+              <span class="difficulty-detail">
+                <span class="level-meter" aria-hidden="true"><i class="is-filled"></i><i class="is-filled"></i><i class="is-filled"></i><i></i></span>
+                <span>Țări de explorat</span>
+              </span>
+            </button>
+            <button class="difficulty-option" type="button" data-difficulty="expert" aria-pressed="false" aria-label="Foarte greu — pentru experți">
+              <span class="difficulty-name">Foarte greu</span>
+              <span class="difficulty-detail">
+                <span class="level-meter" aria-hidden="true"><i class="is-filled"></i><i class="is-filled"></i><i class="is-filled"></i><i class="is-filled"></i></span>
+                <span>Pentru experți</span>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-count-picker" role="group" aria-labelledby="question-count-title">
+          <h2 class="difficulty-title" id="question-count-title">Câte întrebări vrei?</h2>
+          <div class="count-options">
+            <button class="count-option is-selected" type="button" data-count="10" aria-pressed="true">10</button>
+            <button class="count-option" type="button" data-count="20" aria-pressed="false">20</button>
+            <button class="count-option" type="button" data-count="30" aria-pressed="false">30</button>
+            <button class="count-option" type="button" data-count="all" aria-pressed="false">Toate</button>
+          </div>
+        </div>
+
+        <button class="button button--primary intro-start" id="start-button" type="button">
+          <span>Începe quiz-ul</span>
+          <span class="button-icon" aria-hidden="true">→</span>
+        </button>
+      </section>
+
+      <section class="screen screen--quiz" id="quiz-screen" aria-labelledby="question-title" hidden>
+        <div class="quiz-topline">
+          <p class="question-count" id="question-count">Întrebarea 1 din 10</p>
+          <p class="score-label" id="score-label" aria-label="Scor curent">0 corecte</p>
+        </div>
+
+        <div
+          class="progress-track"
+          role="progressbar"
+          aria-label="Progresul quiz-ului"
+          aria-valuemin="1"
+          aria-valuemax="10"
+          aria-valuenow="1"
+        >
+          <span class="progress-value" id="progress-value"></span>
+        </div>
+
+        <article class="quiz-card" id="quiz-card">
+          <div class="country-visual">
+            <img class="flag" id="country-flag" src="flags/pt.svg" alt="Steagul țării Portugalia" />
+            <svg class="map-lines" viewBox="0 0 150 92" aria-hidden="true">
+              <path d="M8 58c18-2 20-26 39-29 17-3 21 14 36 11 18-4 21-22 40-20 10 1 16 7 20 13"></path>
+              <path d="M20 74c20-9 38 2 53-5 16-8 23-25 42-22 10 2 18 8 27 6"></path>
+              <circle cx="48" cy="29" r="3"></circle>
+              <circle cx="115" cy="47" r="3"></circle>
+            </svg>
+          </div>
+
+          <div class="question-block">
+            <p class="country-name" id="country-name">Portugalia</p>
+            <h2 id="question-title">Care este capitala Portugaliei?</h2>
+          </div>
+
+          <div class="answers" id="answers" aria-label="Variante de răspuns"></div>
+
+          <div class="feedback" id="feedback" aria-live="polite" aria-atomic="true"></div>
+
+          <button class="button button--next" id="next-button" type="button" hidden>
+            <span>Întrebarea următoare</span>
+            <span class="button-icon" aria-hidden="true">→</span>
+          </button>
+        </article>
+      </section>
+
+      <section class="screen screen--result" id="result-screen" aria-labelledby="result-title" hidden>
+        <div class="result-stamp" aria-hidden="true">
+          <svg viewBox="0 0 96 96">
+            <circle cx="48" cy="48" r="37"></circle>
+            <path d="m31 49 11 11 24-27"></path>
+          </svg>
+          <span class="spark spark--one"></span>
+          <span class="spark spark--two"></span>
+          <span class="spark spark--three"></span>
+        </div>
+
+        <div class="result-copy">
+          <p class="eyebrow" id="result-eyebrow">Turul lumii s-a încheiat</p>
+          <h1 id="result-title">Bravo!</h1>
+          <p class="result-score" id="result-score">Ai răspuns corect la 8 din 10 întrebări.</p>
+          <p class="result-message" id="result-message">Excelent! Cunoști foarte bine harta lumii.</p>
+        </div>
+
+        <button class="button button--primary" id="restart-button" type="button">
+          <span>Joacă din nou</span>
+          <span class="button-icon button-icon--replay" aria-hidden="true">↻</span>
+        </button>
+      </section>
+    </main>
+
+    <script src="countries.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
