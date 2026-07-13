@@ -576,15 +576,14 @@ h2 {
 }
 
 .feedback {
-  min-height: 0;
+  min-height: 64px;
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
   color: var(--muted);
   font-size: 0.9rem;
   font-weight: 620;
   line-height: 1.45;
-}
-
-.feedback:not(:empty) {
-  margin-top: 16px;
 }
 
 .feedback strong {
@@ -601,14 +600,22 @@ h2 {
   margin-top: 15px;
   background: var(--ink);
   color: white;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 160ms ease, visibility 160ms ease, transform 160ms ease, background-color 160ms ease;
 }
 
-.button--next:hover {
+.button--next.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.button--next.is-visible:hover {
   background: #0e182b;
-}
-
-.button--next[hidden] {
-  display: none;
 }
 
 .result-stamp {
@@ -817,7 +824,7 @@ h2 {
     padding-bottom: 8px;
   }
 
-  .feedback:not(:empty) {
+  .feedback {
     margin-top: 12px;
   }
 }

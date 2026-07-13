@@ -199,7 +199,9 @@ function renderQuestion() {
     : `Ce capitală are ${question.displayName}?`;
   elements.feedback.textContent = "";
   elements.feedback.className = "feedback";
-  elements.nextButton.hidden = true;
+  elements.nextButton.classList.remove("is-visible");
+  elements.nextButton.disabled = true;
+  elements.nextButton.setAttribute("aria-hidden", "true");
   elements.nextLabel.textContent = currentIndex === questionTotal - 1 ? "Vezi rezultatul" : "Întrebarea următoare";
   elements.answers.replaceChildren(...options.map(createAnswerButton));
 
@@ -244,7 +246,9 @@ function selectAnswer(selectedButton, selectedValue) {
   }
 
   showFeedback(isCorrect, question.answer);
-  elements.nextButton.hidden = false;
+  elements.nextButton.classList.add("is-visible");
+  elements.nextButton.disabled = false;
+  elements.nextButton.setAttribute("aria-hidden", "false");
   elements.nextButton.focus({ preventScroll: true });
 }
 
