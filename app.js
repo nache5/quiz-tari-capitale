@@ -42,7 +42,6 @@ const elements = {
   scoreLabel: document.querySelector("#score-label"),
   progressTrack: document.querySelector(".progress-track"),
   progressValue: document.querySelector("#progress-value"),
-  quizCard: document.querySelector("#quiz-card"),
   countryFlag: document.querySelector("#country-flag"),
   countryName: document.querySelector("#country-name"),
   questionTitle: document.querySelector("#question-title"),
@@ -177,7 +176,7 @@ function createAnswerButton(option, index) {
   statusElement.setAttribute("aria-hidden", "true");
 
   button.append(letterElement, textElement, statusElement);
-  button.addEventListener("click", () => selectAnswer(button, option));
+  button.addEventListener("click", (event) => selectAnswer(button, option, event));
   return button;
 }
 
@@ -200,14 +199,10 @@ function renderQuestion() {
   elements.feedback.textContent = "";
   elements.feedback.className = "feedback";
   elements.nextButton.classList.remove("is-visible");
-  elements.nextButton.disabled = true;
+  elements.nextButton.tabIndex = -1;
   elements.nextButton.setAttribute("aria-hidden", "true");
   elements.nextLabel.textContent = currentIndex === questionTotal - 1 ? "Vezi rezultatul" : "Întrebarea următoare";
   elements.answers.replaceChildren(...options.map(createAnswerButton));
-
-  elements.quizCard.classList.remove("is-changing");
-  void elements.quizCard.offsetWidth;
-  elements.quizCard.classList.add("is-changing");
 }
 
 function showFeedback(isCorrect, correctAnswer) {
@@ -220,7 +215,7 @@ function showFeedback(isCorrect, correctAnswer) {
   elements.feedback.classList.toggle("is-success", isCorrect);
 }
 
-function selectAnswer(selectedButton, selectedValue) {
+function selectAnswer(selectedButton, selectedValue, activationEvent) {
   if (answered) return;
   answered = true;
 
@@ -247,9 +242,11 @@ function selectAnswer(selectedButton, selectedValue) {
 
   showFeedback(isCorrect, question.answer);
   elements.nextButton.classList.add("is-visible");
-  elements.nextButton.disabled = false;
+  elements.nextButton.tabIndex = 0;
   elements.nextButton.setAttribute("aria-hidden", "false");
-  elements.nextButton.focus({ preventScroll: true });
+  if (activationEvent.detail === 0) {
+    elements.nextButton.focus({ preventScroll: true });
+  }
 }
 
 function nextQuestion() {
