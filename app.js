@@ -60,6 +60,7 @@ let questionTotal = 10;
 let currentIndex = 0;
 let score = 0;
 let answered = false;
+let isKeyboardNavigation = false;
 
 function shuffle(items) {
   const copy = [...items];
@@ -176,7 +177,7 @@ function createAnswerButton(option, index) {
   statusElement.setAttribute("aria-hidden", "true");
 
   button.append(letterElement, textElement, statusElement);
-  button.addEventListener("click", (event) => selectAnswer(button, option, event));
+  button.addEventListener("click", () => selectAnswer(button, option));
   return button;
 }
 
@@ -215,7 +216,7 @@ function showFeedback(isCorrect, correctAnswer) {
   elements.feedback.classList.toggle("is-success", isCorrect);
 }
 
-function selectAnswer(selectedButton, selectedValue, activationEvent) {
+function selectAnswer(selectedButton, selectedValue) {
   if (answered) return;
   answered = true;
 
@@ -244,18 +245,18 @@ function selectAnswer(selectedButton, selectedValue, activationEvent) {
   elements.nextButton.classList.add("is-visible");
   elements.nextButton.tabIndex = 0;
   elements.nextButton.setAttribute("aria-hidden", "false");
-  if (activationEvent.detail === 0) {
+  if (isKeyboardNavigation) {
     elements.nextButton.focus({ preventScroll: true });
   }
 }
 
-function nextQuestion(activationEvent) {
+function nextQuestion() {
   if (!answered) return;
 
   if (currentIndex < questionTotal - 1) {
     currentIndex += 1;
     renderQuestion();
-    if (activationEvent.detail === 0) {
+    if (isKeyboardNavigation) {
       elements.questionTitle.focus({ preventScroll: true });
     }
     return;
@@ -289,6 +290,12 @@ function returnToDifficultyPicker() {
 
 elements.questionTitle.tabIndex = -1;
 document.querySelector("#result-title").tabIndex = -1;
+document.addEventListener("keydown", () => {
+  isKeyboardNavigation = true;
+}, { capture: true });
+document.addEventListener("pointerdown", () => {
+  isKeyboardNavigation = false;
+}, { capture: true });
 elements.difficultyButtons.forEach((button) => {
   button.addEventListener("click", () => selectDifficulty(button));
 });
