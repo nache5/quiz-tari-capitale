@@ -130,7 +130,6 @@ function startQuiz() {
   elements.progressTrack.setAttribute("aria-valuemax", String(questionTotal));
   renderQuestion();
   changeScreen(screens.quiz);
-  window.setTimeout(() => elements.questionTitle.focus({ preventScroll: true }), 260);
 }
 
 function updateScoreLabel() {
