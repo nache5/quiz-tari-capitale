@@ -60,7 +60,6 @@ let questionTotal = 10;
 let currentIndex = 0;
 let score = 0;
 let answered = false;
-let isKeyboardNavigation = false;
 
 function shuffle(items) {
   const copy = [...items];
@@ -245,9 +244,6 @@ function selectAnswer(selectedButton, selectedValue) {
   elements.nextButton.classList.add("is-visible");
   elements.nextButton.tabIndex = 0;
   elements.nextButton.setAttribute("aria-hidden", "false");
-  if (isKeyboardNavigation) {
-    elements.nextButton.focus({ preventScroll: true });
-  }
 }
 
 function nextQuestion() {
@@ -256,9 +252,6 @@ function nextQuestion() {
   if (currentIndex < questionTotal - 1) {
     currentIndex += 1;
     renderQuestion();
-    if (isKeyboardNavigation) {
-      elements.questionTitle.focus({ preventScroll: true });
-    }
     return;
   }
 
@@ -290,12 +283,6 @@ function returnToDifficultyPicker() {
 
 elements.questionTitle.tabIndex = -1;
 document.querySelector("#result-title").tabIndex = -1;
-document.addEventListener("keydown", () => {
-  isKeyboardNavigation = true;
-}, { capture: true });
-document.addEventListener("pointerdown", () => {
-  isKeyboardNavigation = false;
-}, { capture: true });
 elements.difficultyButtons.forEach((button) => {
   button.addEventListener("click", () => selectDifficulty(button));
 });
