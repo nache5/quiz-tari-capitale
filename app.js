@@ -60,6 +60,7 @@ let questionTotal = 10;
 let currentIndex = 0;
 let score = 0;
 let answered = false;
+let scrollPositionBeforeNext = null;
 
 function shuffle(items) {
   const copy = [...items];
@@ -249,8 +250,11 @@ function nextQuestion() {
   if (!answered) return;
 
   if (currentIndex < questionTotal - 1) {
+    const stableScrollPosition = scrollPositionBeforeNext ?? window.scrollY;
+    scrollPositionBeforeNext = null;
     currentIndex += 1;
     renderQuestion();
+    requestAnimationFrame(() => window.scrollTo(0, stableScrollPosition));
     return;
   }
 
@@ -290,5 +294,8 @@ elements.countButtons.forEach((button) => {
 });
 elements.startButton.addEventListener("click", startQuiz);
 elements.restartButton.addEventListener("click", returnToDifficultyPicker);
+elements.nextButton.addEventListener("pointerdown", () => {
+  scrollPositionBeforeNext = window.scrollY;
+});
 elements.nextButton.addEventListener("click", nextQuestion);
 updateAllCountLabel();
