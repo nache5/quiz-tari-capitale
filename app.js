@@ -249,13 +249,15 @@ function selectAnswer(selectedButton, selectedValue, activationEvent) {
   }
 }
 
-function nextQuestion() {
+function nextQuestion(activationEvent) {
   if (!answered) return;
 
   if (currentIndex < questionTotal - 1) {
     currentIndex += 1;
     renderQuestion();
-    elements.questionTitle.focus({ preventScroll: true });
+    if (activationEvent.detail === 0) {
+      elements.questionTitle.focus({ preventScroll: true });
+    }
     return;
   }
 
