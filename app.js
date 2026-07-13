@@ -218,6 +218,7 @@ function showFeedback(isCorrect, correctAnswer) {
 function selectAnswer(selectedButton, selectedValue) {
   if (answered) return;
   answered = true;
+  scrollPositionBeforeNext = window.scrollY;
 
   const question = questions[currentIndex];
   const isCorrect = selectedValue === question.answer;
@@ -294,8 +295,5 @@ elements.countButtons.forEach((button) => {
 });
 elements.startButton.addEventListener("click", startQuiz);
 elements.restartButton.addEventListener("click", returnToDifficultyPicker);
-elements.nextButton.addEventListener("pointerdown", () => {
-  scrollPositionBeforeNext = window.scrollY;
-});
 elements.nextButton.addEventListener("click", nextQuestion);
 updateAllCountLabel();
